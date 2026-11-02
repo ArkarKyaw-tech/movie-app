@@ -36,7 +36,7 @@ class MediaCard extends StatelessWidget {
                     child: posterUrl == null
                         ? _buildPlaceholder()
                         : Image.network(
-                            posterUrl!,
+                            'https://media.themoviedb.org/t/p/w500$posterUrl!',
                             fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) {

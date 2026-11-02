@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/controllers/tv_controller.dart';
+import 'package:movie_app/models/cast_model.dart';
 import 'package:movie_app/models/tv_model.dart';
 import 'package:movie_app/widgets/media_details_view.dart';
+import 'package:movie_app/widgets/top_bill_cast.dart';
 import 'package:provider/provider.dart';
 
 class TvDetailsPage extends StatefulWidget {
@@ -15,12 +17,16 @@ class TvDetailsPage extends StatefulWidget {
 
 class _TvDetailsPageState extends State<TvDetailsPage> {
   late final Future<TvModel> _future;
+  late final Future<List<CastModel>> _castFuture;
 
   @override
   void initState() {
     super.initState();
 
-    _future = context.read<TvProvider>().fetchTvDetails(widget.id);
+    final provider = context.read<TvProvider>();
+
+    _future = provider.fetchTvDetails(widget.id);
+    _castFuture = provider.fetchTvCast(widget.id);
   }
 
   @override
@@ -72,9 +78,28 @@ class _TvDetailsPageState extends State<TvDetailsPage> {
             rating: tv.voteAverage,
             year: tv.firstAirDate,
             popularity: tv.popularity,
+            bottomSection: _buildSeriesCast(context),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildSeriesCast(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Series Cast',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        TopBillCast(castFuture: _castFuture),
+      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/models/cast_model.dart';
 import 'package:movie_app/models/movie_model.dart';
 
 import 'package:movie_app/services/tmdb_api_service.dart';
@@ -16,9 +17,7 @@ class MovieProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  Future<void> fetchPopularMovies({
-    bool forceRefresh = false,
-  }) async {
+  Future<void> fetchPopularMovies({bool forceRefresh = false}) async {
     if (_isLoading) return;
     if (_movies.isNotEmpty && !forceRefresh) return;
 
@@ -38,5 +37,9 @@ class MovieProvider extends ChangeNotifier {
 
   Future<MovieModel> fetchMovieDetails(int id) {
     return _api.getMovieDetails(id);
+  }
+
+  Future<List<CastModel>> fetchMovieCast(int id) {
+    return _api.getMovieCast(id);
   }
 }

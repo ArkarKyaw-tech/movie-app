@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:movie_app/models/cast_model.dart';
 import 'package:movie_app/models/tv_model.dart';
 import 'package:movie_app/services/tmdb_api_service.dart';
-
 
 class TvProvider extends ChangeNotifier {
   TvProvider(this._api);
@@ -36,5 +36,9 @@ class TvProvider extends ChangeNotifier {
 
   Future<TvModel> fetchTvDetails(int id) {
     return _api.getTvDetails(id);
+  }
+
+  Future<List<CastModel>> fetchTvCast(int id) {
+    return _api.getTvCast(id);
   }
 }

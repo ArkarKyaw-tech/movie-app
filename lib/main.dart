@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movie_app/controllers/actor_controller.dart';
 import 'package:movie_app/controllers/movie_controller.dart';
 import 'package:movie_app/controllers/tv_controller.dart';
 import 'package:movie_app/services/tmdb_api_service.dart';
 import 'package:movie_app/views/home_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: '.env');
   runApp(
     MultiProvider(
       providers: [
@@ -18,6 +23,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => TvProvider(context.read<TmdbApiService>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ActorProvider(context.read<TmdbApiService>()),
         ),
       ],
       child: const MyApp(),

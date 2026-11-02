@@ -9,6 +9,7 @@ class MediaDetailsView extends StatelessWidget {
     required this.rating,
     required this.year,
     required this.popularity,
+    this.bottomSection,
   });
 
   final String title;
@@ -17,6 +18,7 @@ class MediaDetailsView extends StatelessWidget {
   final double rating;
   final String year;
   final double popularity;
+  final Widget? bottomSection;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class MediaDetailsView extends StatelessWidget {
               children: [
                 if (backdropUrl != null && backdropUrl!.isNotEmpty)
                   Image.network(
-                    backdropUrl!,
+                    'https://media.themoviedb.org/t/p/w500$backdropUrl!',
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => _placeholder(),
                   )
@@ -132,7 +134,11 @@ class MediaDetailsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
+                if (bottomSection != null) ...[
+                  const SizedBox(height: 23),
+                  bottomSection!,
+                ],
               ],
             ),
           ),
